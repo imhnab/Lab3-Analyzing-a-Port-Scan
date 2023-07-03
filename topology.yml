@@ -13,11 +13,11 @@ hosts:
       man_user: ubuntu
     flavor: standard.small
 
-  - name: client2
-    base_box: 
-      image: ubuntu-focal-x86_64
-      man_user: ubuntu
-    flavor: standard.small
+#  - name: client2
+#    base_box: 
+#      image: ubuntu-focal-x86_64
+#      man_user: ubuntu
+#    flavor: standard.small
 
 routers:
   - name: router
