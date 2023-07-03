@@ -10,8 +10,7 @@
   apt:
     pkg:
      - nmap
-     - hydra
-     - medusa
+     - apache2
     update_cache: yes
 
 - name: Add passwords file to the home directory
