@@ -1,4 +1,4 @@
-name: Lab3-Analyzing-a-Port-Scan
+name: lab3-analyzing-a-port-scan
 
 hosts:
   - name: server
