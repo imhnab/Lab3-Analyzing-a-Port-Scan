@@ -11,7 +11,6 @@
   apt:
     pkg:
      - telnetd
-     - nmap
     update_cache: yes
 
 - name: Change Telnet port
