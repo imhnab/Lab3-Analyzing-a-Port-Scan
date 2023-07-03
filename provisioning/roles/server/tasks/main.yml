@@ -52,6 +52,7 @@
     state: started
 
 ###################################################################
+# Create some secret directories and files.
 - name: Create secret directory
   file:
     path: /var/www/html/secret
@@ -62,6 +63,10 @@
     dest: /var/www/html/secret/index.html
     src: index.html
 
+- name: Create a robots.txt file
+  copy:
+    dest: /var/www/html/robots.txt
+    src: robots.txt
 #############################################################
 
 - name: Create alias for client
