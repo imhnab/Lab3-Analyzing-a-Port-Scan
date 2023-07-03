@@ -60,12 +60,8 @@
 - name: Create secret index.html file
   copy:
     dest: /var/www/html/secret/index.html
-    src: index1.html
+    src: index.html
 
-- name: Configure secret Apache site
-  copy:
-    dest: /etc/apache2/sites-enabled/001-secret.conf
-    src: 001-secret.conf
 #############################################################
 
 - name: Create alias for client
