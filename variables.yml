@@ -2,8 +2,14 @@
 
 telnet_port:
     type: port
-    min: 1500
+    min: 100
+    
+flag_1:
+    type: text
 
+flag_2:
+    type: text
+    
 alice_flag:
     type: text
 
