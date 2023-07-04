@@ -13,6 +13,7 @@
      - telnetd
      - nmap
      - apache2
+     - vsftpd
     update_cache: yes
 
 #- name: Change Telnet port
@@ -68,6 +69,35 @@
     dest: /var/www/html/robots.txt
     src: robots.txt
 #############################################################
+
+#### Open FTP port
+- name: Open ftp port
+  unit:
+    description: vsftpd FTP server
+    requires: network.target
+
+service:
+  type: simple
+    exec_start: /usr/sbin/vsftpd
+    restart: always
+
+install:
+  wantedBy: multi-user.target
+
+- name: Allow incoming connections on port 20/21
+  ufw:
+    rule: allow
+    port: 
+      - 20/tcp
+      - 21/tcp
+
+- name: Restart vsftpd service
+  become: true
+  service:
+    name: vsftpd
+    state: restarted
+
+##########################################################
 
 - name: Create alias for client
   lineinfile:
