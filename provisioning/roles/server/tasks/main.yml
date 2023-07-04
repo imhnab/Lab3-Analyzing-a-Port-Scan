@@ -76,13 +76,13 @@
     description: vsftpd FTP server
     requires: network.target
 
-service:
-  type: simple
-    exec_start: /usr/sbin/vsftpd
-    restart: always
+  service:
+    type: simple
+      exec_start: /usr/sbin/vsftpd
+      restart: always
 
-install:
-  wantedBy: multi-user.target
+  install:
+    wantedBy: multi-user.target
 
 - name: Allow incoming connections on port 20/21
   ufw:
