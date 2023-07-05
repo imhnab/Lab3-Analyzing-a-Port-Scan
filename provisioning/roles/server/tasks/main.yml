@@ -77,49 +77,23 @@
 #################################################################
 
 #### Open FTP port
-#- name: Open ftp port
-#  unit:
-#    description: vsftpd FTP server
- #   requires: network.target
-
- # service:
- #   type: simple
- #     exec_start: /usr/sbin/vsftpd
- #     restart: always
-
- # install:
-  #  wantedBy: multi-user.target
-
-#- name: Allow incoming connections on port 20/21
-#  ufw:
-  #  rule: allow
-  #  port: 
-   #   - 20/tcp
-    #  - 21/tcp
-
-#- name: Restart vsftpd service
-#  become: true
-#  service:
-#    name: vsftpd
-#    state: restarted
 - name: Open ftp port
-  systemd:
-    name: vsftpd
+  unit:
     description: vsftpd FTP server
-    unit:
-      requires:
-        - network.target
-    service:
-      type: simple
+    requires: network.target
+
+  service:
+    type: simple
       exec_start: /usr/sbin/vsftpd
       restart: always
-    install:
-      wantedBy: multi-user.target
+
+  install:
+    wantedBy: multi-user.target
 
 - name: Allow incoming connections on port 20/21
   ufw:
     rule: allow
-    port:
+    port: 
       - 20/tcp
       - 21/tcp
 
@@ -127,7 +101,8 @@
   become: true
   service:
     name: vsftpd
-    state: restarted
+   state: restarted
+
 ###########################################################
 
 - name: Create alias for client
