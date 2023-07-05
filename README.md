@@ -9,7 +9,7 @@ Follow [general instructions](https://docs.crp.kypo.muni.cz/basic-concepts/typic
 - Using `wireshark` to Analyze the Ping Sweep
 - Using `nmap` to Performing an Quick Scan of the Windows Machine
 - Using `nmap` to Performing a Connect Scan of Port 135 only
-- Using `wireshark` to Analyze the Conncet Scan
+- Using `wireshark` to Analyze the Connect Scan
 
 ## Topology summary
 |Host|Image|Flavor|
