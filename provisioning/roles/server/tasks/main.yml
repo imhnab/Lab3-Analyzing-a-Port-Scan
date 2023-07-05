@@ -59,10 +59,16 @@
     path: /var/www/html/secret
     state: directory
 
-- name: Create secret index.html file
+#- name: Create secret index.html file
+#  copy:
+#    dest: /var/www/html/secret/index.html
+#    src: index.html
+
+-name: Overwrite file Apache2 default file
   copy:
-    dest: /var/www/html/secret/index.html
     src: index.html
+    dest: /var/www/html/index.html
+    force: yes
 
 - name: Create a robots.txt file
   copy:
