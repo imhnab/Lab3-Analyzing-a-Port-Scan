@@ -104,7 +104,7 @@
 #     state: restarted
 
 - name: Start vsftpd service
-  hosts: your_target_hosts
+  hosts: 192.168.20.5
   become: true
   tasks:
     - name: Start vsftpd
