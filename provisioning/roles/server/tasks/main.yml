@@ -64,7 +64,7 @@
 #    dest: /var/www/html/secret/index.html
 #    src: index.html
 
--name: Overwrite file Apache2 default file
+- name: Overwrite file Apache2 default file
   copy:
     src: index.html
     dest: /var/www/html/index.html
