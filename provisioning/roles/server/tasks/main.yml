@@ -77,31 +77,40 @@
 #################################################################
 
 #### Open FTP port
-- name: Open ftp port
-  unit:
-    description: vsftpd FTP server
-    requires: network.target
+# - name: Open ftp port
+#   unit:
+#     description: vsftpd FTP server
+#     requires: network.target
 
-  service:
-    type: simple
-      exec_start: /usr/sbin/vsftpd
-      restart: always
+#   service:
+#     type: simple
+#       exec_start: /usr/sbin/vsftpd
+#       restart: always
 
-  install:
-    wantedBy: multi-user.target
+#   install:
+#     wantedBy: multi-user.target
 
-- name: Allow incoming connections on port 20/21
-  ufw:
-    rule: allow
-    port: 
-      - 20/tcp
-      - 21/tcp
+# - name: Allow incoming connections on port 20/21
+#   ufw:
+#     rule: allow
+#     port: 
+#       - 20/tcp
+#       - 21/tcp
 
-- name: Restart vsftpd service
+# - name: Restart vsftpd service
+#   become: true
+#   service:
+#     name: vsftpd
+#     state: restarted
+
+- name: Start vsftpd service
+  hosts: your_target_hosts
   become: true
-  service:
-    name: vsftpd
-   state: restarted
+  tasks:
+    - name: Start vsftpd
+      systemd:
+        name: vsftpd
+        state: started
 
 ###########################################################
 
