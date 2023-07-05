@@ -108,9 +108,11 @@
   become: true
   tasks:
     - name: Start vsftpd
-      systemd:
+      service:
         name: vsftpd
         state: started
+        enabled: true
+      become: true
 
 ###########################################################
 
