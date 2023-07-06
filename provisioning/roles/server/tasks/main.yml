@@ -103,14 +103,11 @@
 #     name: vsftpd
 #     state: restarted
 
-- name: Start vsftpd service
-  hosts: 192.168.20.5
-  become: true
-  tasks:
-    - name: Start vsftpd
-      systemd:
-        name: vsftpd
-        state: started
+
+- name: Start vsftpd
+  systemd:
+    name: vsftpd
+    state: started
 
 ###########################################################
 
