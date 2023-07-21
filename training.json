@@ -1,253 +1,393 @@
 {
-  "title" : "KYPO Cyber Range Training Platform - Demo Content (terminal)",
-  "description" : "The demo contains all types of levels to demonstrate the training capabilities of the KYPO Cyber Range Platform.",
+  "title" : "lab3-analyzing-a-port-scan",
+  "description" : "Learn and practice with some scan tools.",
   "prerequisites" : [ ],
-  "outcomes" : [ "Scanning ports with nmap", "Password guessing with hydra at telnet", "Privilege escalation using misconfigured sudo" ],
+  "outcomes" : [ ],
   "state" : "UNRELEASED",
   "show_stepper_bar" : true,
   "levels" : [ {
-    "title" : "Info",
+    "title" : "Introduction to this Lab",
     "level_type" : "INFO_LEVEL",
     "order" : 0,
     "estimated_duration" : 0,
     "minimal_possible_solve_time" : null,
-    "content" : "# Demo Summary\n\nThe demo contains all types of levels to demonstrate the training capabilities of the KYPO Cyber Range Platform.\n\n**Note**: It is recommended to use the Chrome browser. In case you run into difficulties with submitting the answer, try to Log out and Log in again. \n\n| Level | Level Name | Level Type |\n|:------:|------| ------ |\n| 1. | Info | Info |\n| 2. | Finding Open Ports | Training |\n| 3. | Connecting via Telnet | Training |\n| 4. | Privilege Escalation | Training |\n| 5. | Test Example | Assessment |\n| 6. | Assessment Example | Assessment |\n\n## Info\n\nThe level contains this information page.\n\n## Finding open ports\n\nThe level provides information on how to connect to a sandbox. In general, there are two possible options. The first option is to use the platform'a GUI to connect to the machine via Spice console. The second option is to connect through SSH with a generated config file and keys.\n\nThis level's small challenge is to scan open ports.\n\n## Connecting Via Telnet\n\nThis level's challenge is to connect to the server machine without a password and discover the secret answer.\n\n## Privilege Escalation\n\nThis demo's bigger challenge is to gain root privileges and read an answer available only to a root user. Enjoy! \n\n## Test Example\n\nThe level contains a simple example of a test. Tests can be used, for example, for additional testing of students for grading purposes.\n\n## Assessment Example\n\nThe level contains a simple example of a test. For example, the tests can be used to verify the learning outcomes or for collecting feedback.\n"
+    "content" : "Welcome to the laboratory session on analyzing a port scan using [Nmap](https://nmap.org/). In this lab, we will explore the fascinating world of port scanning, one of the essential techniques in network security. By utilizing a powerful tools - [Nmap](https://nmap.org/), we will delve into the intricacies of port scans and gain hands-on experience in analyzing their results.\n\nPort scanning plays a critical role in identifying open ports and potential vulnerabilities in a target system. It allows network administrators and security analysts to assess the security posture of their networks and take proactive measures to mitigate risks.\n\nIn this lab, we will begin by introducing [Nmap](https://nmap.org/), a widely-used and versatile port scanning tool. You will learn how to install and configure [Nmap](https://nmap.org/), and we will explore various scanning techniques, such as TCP, UDP, and SYN scans. We will discuss the characteristics of each scan type and their respective use cases.\n\nBy the end of this lab, you will have acquired practical skills in using [Nmap](https://nmap.org/) for port scanning. This knowledge will empower you to identify and address potential vulnerabilities in your network infrastructure effectively.\n\nFeel free to ask questions, collaborate with your peers, and actively participate in the lab activities. Engage with a curious and analytical mindset to make the most out of this hands-on experience and deepen your understanding of port scanning, [Nmap](https://nmap.org/).\n\nLet's embark on this exciting journey of analyzing port scans using [Nmap](https://nmap.org/)."
   }, {
-    "title" : "Get Access",
-    "level_type" : "ACCESS_LEVEL",
+    "title" : "Introduction to Nmap",
+    "level_type" : "INFO_LEVEL",
     "order" : 1,
     "estimated_duration" : 0,
     "minimal_possible_solve_time" : null,
-    "passkey" : "start",
-    "cloud_content" : "Your first task is to access the sandbox, where you will complete all following tasks. After you have successfully connected, Submit the answer **`start`**.\n\n### Sandbox access\n1. In the topology overview on the right, right-click on **`client`** and then click on **`Open console`**, and a new pop-up window will appear. \n2. Login with username **`user`** and password **`Password123`**.\n\nAlternatively, you can use SSH to connect to the machine. SSH access makes it easier to copy-paste commands and flags, but requires more steps to set up. See [documentation](https://docs.crp.kypo.muni.cz/user-guide-advanced/sandboxes/sandbox-access/#user-access) for more details.",
-    "local_content" : "This sandbox has not been tested for use with local sandbox."
+    "content" : "# **Name**\nnmap — Network exploration tool and security / port scanner\n\n# **Synopsis**\n`nmap [ <Scan Type> ...] [ <Options> ] { <target specification> }`\n\n# **Description**\nNmap (“Network Mapper”) is an open source tool for network exploration and security auditing. It was designed to rapidly scan large networks, although it works fine against single hosts. Nmap uses raw IP packets in novel ways to determine what hosts are available on the network, what services (application name and version) those hosts are offering, what operating systems (and OS versions) they are running, what type of packet filters/firewalls are in use, and dozens of other characteristics. While Nmap is commonly used for security audits, many systems and network administrators find it useful for routine tasks such as network inventory, managing service upgrade schedules, and monitoring host or service uptime.\n\nThe output from Nmap is a list of scanned targets, with supplemental information on each depending on the options used. Key among that information is the “interesting ports table”. That table lists the port number and protocol, service name, and state. The state is either open, filtered, closed, or unfiltered. Open means that an application on the target machine is listening for connections/packets on that port. Filtered means that a firewall, filter, or other network obstacle is blocking the port so that Nmap cannot tell whether it is open or closed. Closed ports have no application listening on them, though they could open up at any time. Ports are classified as unfiltered when they are responsive to Nmap's probes, but Nmap cannot determine whether they are open or closed. Nmap reports the state combinations open|filtered and closed|filtered when it cannot determine which of the two states describe a port. The port table may also include software version details when version detection has been requested. When an IP protocol scan is requested (-sO), Nmap provides information on supported IP protocols rather than listening ports.\n\nIn addition to the interesting ports table, Nmap can provide further information on targets, including reverse DNS names, operating system guesses, device types, and MAC addresses.\n\nWe can read more in [Nmap](https://nmap.org/)"
   }, {
-    "title" : "Finding open ports",
-    "level_type" : "TRAINING_LEVEL",
+    "title" : "Get Access",
+    "level_type" : "ACCESS_LEVEL",
     "order" : 2,
-    "estimated_duration" : 10,
-    "minimal_possible_solve_time" : 1,
-    "answer" : null,
-    "answer_variable_name" : "telnet_port",
-    "content" : "Your goal is to get access to the **server**. You know that there is a **telnet** service running on the server but it is not running on the default port. Your first task is to find the **port** on which the telnet service is running. The answer is the port number.\n",
-    "solution" : "1. Look for open ports using the command **`nmap -p- 192.168.20.5`**. You can see **ssh** running on port **22** and some other service running on port **${ANSWER}**. This has to be the **telnet** service.\n\n2. Enter **`${ANSWER}`** as the answer.",
-    "solution_penalized" : true,
-    "hints" : [ {
-      "title" : "Tool to find open ports",
-      "content" : "A common tool to find open ports is **nmap**. You can learn how to use nmap using **`nmap --help`** or by searching online.",
-      "hint_penalty" : 20,
-      "order" : 0
-    } ],
-    "incorrect_answer_limit" : 10,
-    "attachments" : [ ],
-    "max_score" : 50,
-    "variant_answers" : true,
-    "reference_solution" : [ ],
-    "mitre_techniques" : [ {
-      "technique_key" : "TA0007.T1046"
-    }, {
-      "technique_key" : "TA0043.T1595"
-    } ],
-    "expected_commands" : [ "ls", "nmap" ],
-    "commands_required" : true
+    "estimated_duration" : 0,
+    "minimal_possible_solve_time" : null,
+    "passkey" : "start",
+    "cloud_content" : "For accessing KYPO virtual machines using your local command-line tool, click on `Get SSH access` button to download ZIP file and then follow the instructions in the [documentation](https://docs.crp.kypo.muni.cz/user-guide-advanced/sandboxes/sandbox-access/#user-access). When you are ready to advance to the next phase, submit the `start` to connect to virtual machine",
+    "local_content" : "Before proceeding further, you need to start a sandbox on your machine. \nPlease clone [this Gitlab repository](https://<link_to_a_repo>) and follow steps in the README file.\nWhen your sandbox is ready at your host, submit the passkey from the README file."
   }, {
-    "title" : "Connecting via Telnet",
+    "title" : "Check connection to server",
     "level_type" : "TRAINING_LEVEL",
     "order" : 3,
-    "estimated_duration" : 10,
-    "minimal_possible_solve_time" : 1,
-    "answer" : null,
-    "answer_variable_name" : "alice_flag",
-    "content" : "Now you have the port number and you would like to connect, but you don't have any credentials. Luckily you know that user **`alice`** has a weak password. You might be able to guess it. The answer is in alices home directory. There is a list of common passwords placed in your home directory for your convenience.\n\n",
-    "solution" : "Replace **${telnet_port}** with the port number from the previous level:\n\n1. You know that **alice** has a weak password so you can try a dictionary attack. A list of common passwords is ready in your home directory. One of possible tools to make a password attack is **hydra**. A command to find the password is **`hydra -l alice -P passlist.txt telnet://192.168.20.5:${telnet_port}`**. This will reveal alices password **`bacon`**.\n\n2. Now you can connect to the server by using **`telnet 192.168.20.5 ${telnet_port}`**, entering username **`alice`** and her password **`bacon`**.\n\n3. To read the answer you can use **`cat flag.txt`**. The answer is **`${ANSWER}`**\n",
+    "estimated_duration" : 5,
+    "minimal_possible_solve_time" : null,
+    "answer" : "192.168.20.5",
+    "answer_variable_name" : null,
+    "content" : "Check connection to server and what is IP of server?",
+    "solution" : "`ping server`",
     "solution_penalized" : true,
     "hints" : [ {
-      "title" : "Connecting using telnet",
-      "content" : "The command to connect using telnet is **`telnet <host> <port>`**, so in our case **`telnet 192.168.20.5 ${telnet_port}`**. You will be prompted to enter an username and password.",
+      "title" : "Hint",
+      "content" : "server is a hostname",
       "hint_penalty" : 10,
-      "order" : 1
-    }, {
-      "title" : "Tool for password attacks",
-      "content" : "Common tools for password attacks are **hydra** and **medusa**. Consult their help commands or man pages to find appropriate options to perform the attack. You can use the list of common passwords stored in your home directory. Use **`ls`** to list files.",
-      "hint_penalty" : 20,
       "order" : 0
     } ],
     "incorrect_answer_limit" : 10,
     "attachments" : [ ],
     "max_score" : 100,
-    "variant_answers" : true,
+    "variant_answers" : false,
     "reference_solution" : [ ],
-    "mitre_techniques" : [ {
-      "technique_key" : "TA0006.T1110"
-    } ],
-    "expected_commands" : [ "hydra", "telnet", "cat" ],
+    "mitre_techniques" : [ ],
+    "expected_commands" : [ ],
     "commands_required" : true
   }, {
-    "title" : "Privilege Escalation",
+    "title" : "Check Nmap tool",
     "level_type" : "TRAINING_LEVEL",
     "order" : 4,
-    "estimated_duration" : 15,
-    "minimal_possible_solve_time" : 1,
-    "answer" : null,
-    "answer_variable_name" : "root_flag",
-    "content" : "Great, you managed to login to the server as **alice** but there is not much you can do as **alice**. Can you find a way to become **root**? The answer is in the root directory.\n\nOne of common privilege escalation attack vectors is badly configured **sudo**. To see what you can use sudo for, use the **`sudo --list`** command.\n",
-    "solution" : "1. You can see that the only command you can use sudo on is **`less /home/alice/flag.txt`**. There is not much to see in the flag, but you can run this as **root**. Is there a way to get a shell?\n\n2. There is, all you have to do is enter **`!sh`** while running the **`sudo less /home/alice/flag.txt`** to get a root shell.\n\n3. To get the answer, use **`cd`** to enter the root directory and **`cat flag.txt`** to read the answer. The answer is **`${ANSWER}`**",
+    "estimated_duration" : 5,
+    "minimal_possible_solve_time" : null,
+    "answer" : "5",
+    "answer_variable_name" : null,
+    "content" : "Check Nmap tool and try with some example command :\n1. `nmap`\n\n2. `nmap -v -A scanme.nmap.org`\n\nHow many ports opening on scanme.nmap.org?\n",
+    "solution" : "`nmap -v -A scanme.nmap.org`",
     "solution_penalized" : true,
     "hints" : [ {
-      "title" : "Using the privilege escalation",
-      "content" : "You have probably figured out that you can run **sudo** on a certain **less** command. To get a shell run **`sudo less /home/alice/flag.txt`**, enter the password. Type **`!sh`** to get a root shell.",
-      "hint_penalty" : 60,
+      "title" : "Hint",
+      "content" : "The PORT and STATE column in OUTPUT of Nmap",
+      "hint_penalty" : 10,
       "order" : 0
     } ],
     "incorrect_answer_limit" : 10,
     "attachments" : [ ],
     "max_score" : 100,
-    "variant_answers" : true,
+    "variant_answers" : false,
     "reference_solution" : [ ],
-    "mitre_techniques" : [ {
-      "technique_key" : "TA0004.T1068"
-    }, {
-      "technique_key" : "TA0043.T1592"
-    } ],
-    "expected_commands" : [ "cat", "ls", "sudo" ],
+    "mitre_techniques" : [ ],
+    "expected_commands" : [ ],
     "commands_required" : true
   }, {
-    "title" : "Test Example",
-    "level_type" : "ASSESSMENT_LEVEL",
+    "title" : "Scan all ports on server",
+    "level_type" : "TRAINING_LEVEL",
     "order" : 5,
     "estimated_duration" : 5,
     "minimal_possible_solve_time" : null,
-    "questions" : [ {
-      "question_type" : "FFQ",
-      "text" : "What was the name of a file storing the answer?",
-      "points" : 100,
-      "penalty" : 0,
-      "order" : 0,
-      "answer_required" : true,
-      "choices" : [ {
-        "text" : "flag.txt",
-        "correct" : true,
-        "order" : 0
-      } ]
-    }, {
-      "question_type" : "MCQ",
-      "text" : "The Telnet service was running on the default port.",
-      "points" : 100,
-      "penalty" : 0,
-      "order" : 1,
-      "answer_required" : true,
-      "choices" : [ {
-        "text" : "Yes",
-        "correct" : false,
-        "order" : 0
-      }, {
-        "text" : "No",
-        "correct" : true,
-        "order" : 1
-      } ]
-    }, {
-      "question_type" : "EMI",
-      "text" : "Match services with their default port numbers.",
-      "points" : 100,
-      "penalty" : 0,
-      "order" : 2,
-      "answer_required" : true,
-      "extended_matching_options" : [ {
-        "text" : "22",
-        "order" : 0
-      }, {
-        "text" : "23",
-        "order" : 1
-      }, {
-        "text" : "80",
-        "order" : 2
-      }, {
-        "text" : "443",
-        "order" : 3
-      } ],
-      "extended_matching_statements" : [ {
-        "text" : "HTTP",
-        "order" : 0,
-        "correct_option_order" : 2
-      }, {
-        "text" : "SSH",
-        "order" : 1,
-        "correct_option_order" : 0
-      }, {
-        "text" : "HTTPS",
-        "order" : 2,
-        "correct_option_order" : 3
-      }, {
-        "text" : "Telnet",
-        "order" : 3,
-        "correct_option_order" : 1
-      } ]
+    "answer" : "4",
+    "answer_variable_name" : null,
+    "content" : "Let's try scan `server`, how many ports opening on server?",
+    "solution" : "`nmap -T4 -A server`",
+    "solution_penalized" : true,
+    "hints" : [ {
+      "title" : "Hint",
+      "content" : "Similar to level 5 but server is hostname in here",
+      "hint_penalty" : 10,
+      "order" : 0
     } ],
-    "instructions" : "A simple test.",
-    "assessment_type" : "TEST"
+    "incorrect_answer_limit" : 10,
+    "attachments" : [ ],
+    "max_score" : 100,
+    "variant_answers" : false,
+    "reference_solution" : [ ],
+    "mitre_techniques" : [ ],
+    "expected_commands" : [ ],
+    "commands_required" : true
   }, {
-    "title" : "Assessment Example",
-    "level_type" : "ASSESSMENT_LEVEL",
+    "title" : "Scan more information in a special port",
+    "level_type" : "TRAINING_LEVEL",
     "order" : 6,
-    "estimated_duration" : 5,
+    "estimated_duration" : 10,
+    "minimal_possible_solve_time" : null,
+    "answer" : "http",
+    "answer_variable_name" : null,
+    "content" : "Try to analyze port 80. Which service is active on this port?",
+    "solution" : "`nmap -T4 -A -p 80 server`",
+    "solution_penalized" : true,
+    "hints" : [ {
+      "title" : "Hint",
+      "content" : "Similar to level 6 but focus on special port!",
+      "hint_penalty" : 10,
+      "order" : 0
+    } ],
+    "incorrect_answer_limit" : 10,
+    "attachments" : [ ],
+    "max_score" : 100,
+    "variant_answers" : false,
+    "reference_solution" : [ ],
+    "mitre_techniques" : [ ],
+    "expected_commands" : [ ],
+    "commands_required" : true
+  }, {
+    "title" : "Scan more information in a special port",
+    "level_type" : "TRAINING_LEVEL",
+    "order" : 7,
+    "estimated_duration" : 10,
+    "minimal_possible_solve_time" : null,
+    "answer" : "1",
+    "answer_variable_name" : null,
+    "content" : "Still on port 80, how many files or directories is disallowed by robots.txt file?",
+    "solution" : "`nmap -T4 -A -p 80 server`",
+    "solution_penalized" : true,
+    "hints" : [ {
+      "title" : "Hint",
+      "content" : "Similar the before level but focus on the row include `robots.txt`",
+      "hint_penalty" : 10,
+      "order" : 0
+    } ],
+    "incorrect_answer_limit" : 10,
+    "attachments" : [ ],
+    "max_score" : 100,
+    "variant_answers" : false,
+    "reference_solution" : [ ],
+    "mitre_techniques" : [ ],
+    "expected_commands" : [ ],
+    "commands_required" : true
+  }, {
+    "title" : "Scan more information in a special port",
+    "level_type" : "TRAINING_LEVEL",
+    "order" : 8,
+    "estimated_duration" : 10,
+    "minimal_possible_solve_time" : null,
+    "answer" : "Nmap_1s_gr34t_sc4n_t00l",
+    "answer_variable_name" : null,
+    "content" : "What is the http-title on server?",
+    "solution" : "`nmap -T4 -A -p 80 server`",
+    "solution_penalized" : true,
+    "hints" : [ {
+      "title" : "Hint",
+      "content" : "Before the before level but focus on `http-title`",
+      "hint_penalty" : 10,
+      "order" : 0
+    } ],
+    "incorrect_answer_limit" : 10,
+    "attachments" : [ ],
+    "max_score" : 100,
+    "variant_answers" : false,
+    "reference_solution" : [ ],
+    "mitre_techniques" : [ ],
+    "expected_commands" : [ ],
+    "commands_required" : true
+  }, {
+    "title" : "Summary about Nmap",
+    "level_type" : "ASSESSMENT_LEVEL",
+    "order" : 9,
+    "estimated_duration" : 10,
     "minimal_possible_solve_time" : null,
     "questions" : [ {
       "question_type" : "MCQ",
-      "text" : "How did you connect to the client?",
-      "points" : 0,
+      "text" : "What is the fully name of Nmap?",
+      "points" : 100,
       "penalty" : 0,
       "order" : 0,
       "answer_required" : true,
       "choices" : [ {
-        "text" : "Graphical user interface of KYPO",
+        "text" : "Network Mapping",
         "correct" : false,
         "order" : 0
       }, {
-        "text" : "SSH",
-        "correct" : false,
+        "text" : "Network Mapper",
+        "correct" : true,
         "order" : 1
+      }, {
+        "text" : "Networking Mapper",
+        "correct" : false,
+        "order" : 2
+      }, {
+        "text" : "No Mapping",
+        "correct" : false,
+        "order" : 3
       } ]
     }, {
-      "question_type" : "EMI",
-      "text" : "Do you agree that... ?",
-      "points" : 0,
+      "question_type" : "MCQ",
+      "text" : "Nmap is a/an ... tool.",
+      "points" : 100,
       "penalty" : 0,
       "order" : 1,
       "answer_required" : true,
-      "extended_matching_options" : [ {
-        "text" : "Very much",
+      "choices" : [ {
+        "text" : "open source",
+        "correct" : true,
         "order" : 0
       }, {
-        "text" : "A little bit",
+        "text" : "close source",
+        "correct" : false,
+        "order" : 1
+      } ]
+    }, {
+      "question_type" : "MCQ",
+      "text" : "What is the purpose of Nmap?",
+      "points" : 100,
+      "penalty" : 0,
+      "order" : 2,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "network exploration",
+        "correct" : true,
+        "order" : 0
+      }, {
+        "text" : "security auditing",
+        "correct" : true,
+        "order" : 1
+      } ]
+    }, {
+      "question_type" : "MCQ",
+      "text" : "Which is raw packets that Nmap uses?",
+      "points" : 100,
+      "penalty" : 0,
+      "order" : 3,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "TCP",
+        "correct" : false,
+        "order" : 0
+      }, {
+        "text" : "UDP",
+        "correct" : false,
         "order" : 1
       }, {
-        "text" : "Not really",
+        "text" : "IP",
+        "correct" : true,
         "order" : 2
       }, {
-        "text" : "Not at all",
+        "text" : "ICMP",
+        "correct" : false,
         "order" : 3
-      } ],
-      "extended_matching_statements" : [ {
-        "text" : "Everything went smoothly",
+      } ]
+    }, {
+      "question_type" : "MCQ",
+      "text" : "In this command : \n\n`nmap -A -T4 scanme.nmap.org`.\n\n What is the option `-A` ?\n",
+      "points" : 100,
+      "penalty" : 0,
+      "order" : 4,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "enable OS and version detection",
+        "correct" : true,
         "order" : 0
       }, {
-        "text" : "The User Interface is nice",
+        "text" : "script scanning",
+        "correct" : true,
         "order" : 1
       }, {
-        "text" : "The test was easy",
+        "text" : "traceroute",
+        "correct" : true,
         "order" : 2
+      }, {
+        "text" : "faster execution",
+        "correct" : false,
+        "order" : 3
+      }, {
+        "text" : "hostname",
+        "correct" : false,
+        "order" : 4
+      } ]
+    }, {
+      "question_type" : "MCQ",
+      "text" : "In this command : \n\n`nmap -A -T4 scanme.nmap.org`.\n\n What is the option `-T4` ?\n",
+      "points" : 100,
+      "penalty" : 0,
+      "order" : 5,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "enable OS and version detection",
+        "correct" : false,
+        "order" : 0
+      }, {
+        "text" : "script scanning",
+        "correct" : false,
+        "order" : 1
+      }, {
+        "text" : "traceroute",
+        "correct" : false,
+        "order" : 2
+      }, {
+        "text" : "faster execution",
+        "correct" : true,
+        "order" : 3
+      }, {
+        "text" : "hostname",
+        "correct" : false,
+        "order" : 4
+      } ]
+    }, {
+      "question_type" : "MCQ",
+      "text" : "In this command : \n\n`nmap -A -T4 scanme.nmap.org`.\n\n What is the `scanme.nmap.org` ?\n",
+      "points" : 0,
+      "penalty" : 0,
+      "order" : 6,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "enable OS and version detection",
+        "correct" : false,
+        "order" : 0
+      }, {
+        "text" : "script scanning",
+        "correct" : false,
+        "order" : 1
+      }, {
+        "text" : "traceroute",
+        "correct" : false,
+        "order" : 2
+      }, {
+        "text" : "faster execution",
+        "correct" : false,
+        "order" : 3
+      }, {
+        "text" : "hostname",
+        "correct" : true,
+        "order" : 4
       } ]
     }, {
       "question_type" : "FFQ",
-      "text" : "How would you improve this demo?",
-      "points" : 0,
+      "text" : "What option when we only scan specified ports?",
+      "points" : 100,
       "penalty" : 0,
-      "order" : 2,
-      "answer_required" : false
+      "order" : 7,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "-p",
+        "correct" : true,
+        "order" : 0
+      } ]
+    }, {
+      "question_type" : "FFQ",
+      "text" : "What option to enable OS detection?",
+      "points" : 100,
+      "penalty" : 0,
+      "order" : 8,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "-O",
+        "correct" : true,
+        "order" : 0
+      } ]
+    }, {
+      "question_type" : "FFQ",
+      "text" : "What option to probe open ports to determine service/version info?",
+      "points" : 100,
+      "penalty" : 0,
+      "order" : 9,
+      "answer_required" : true,
+      "choices" : [ {
+        "text" : "-sV",
+        "correct" : true,
+        "order" : 0
+      } ]
     } ],
-    "instructions" : "Please answer the questions. The last question is voluntary.",
-    "assessment_type" : "QUESTIONNAIRE"
+    "instructions" : "Summary about Nmap",
+    "assessment_type" : "TEST"
   } ],
-  "estimated_duration" : 45,
+  "estimated_duration" : 55,
   "variant_sandboxes" : false
 }
